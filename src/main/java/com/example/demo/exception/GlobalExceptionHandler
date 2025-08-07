@@ -1,0 +1,23 @@
+package com.example.demo.exception;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<?> handleNotFound(ResourceNotFoundException ex) {
+        return ResponseEntity.status(404)
+                             .body(new ApiError("NOT_FOUND", ex.getMessage()));
+    }
+
+    static class ApiError {
+        public final String error;
+        public final String message;
+
+        public ApiError(String error, String message) {
+            this.error = error;
+            this.message = message;
+        }
+    }
+}
